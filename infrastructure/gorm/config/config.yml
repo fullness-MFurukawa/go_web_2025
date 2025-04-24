@@ -1,0 +1,7 @@
+db:
+  user: "root"
+  password: "password"
+  host: "goweb_exercise_db"
+  port: 3306
+  dbname: "exercisedb"
+  option: "?charset=utf8mb4&parseTime=True&loc=Local"
