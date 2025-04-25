@@ -1,0 +1,124 @@
+basePath: /
+definitions:
+  dto.CategoryDTO:
+    properties:
+      categoryId:
+        type: string
+      categoryName:
+        type: string
+    type: object
+  dto.ProductDTO:
+    properties:
+      category:
+        $ref: '#/definitions/dto.CategoryDTO'
+      productId:
+        type: string
+      productName:
+        type: string
+      productPrice:
+        type: string
+    type: object
+  errortype.ApplicationError:
+    type: object
+  errortype.DomainError:
+    type: object
+  errortype.InternalError:
+    type: object
+  errortype.NotFoundError:
+    type: object
+host: localhost:8085
+info:
+  contact:
+    email: XXXX
+    name: XXXX
+    url: XXXX
+  description: 商品と商品カテゴリを管理するAPIサービス
+  title: Go モダンWeb開発
+  version: "1.0"
+paths:
+  /category/list:
+    get:
+      consumes:
+      - application/json
+      description: 商品カテゴリ一覧を取得する
+      operationId: list-category
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.CategoryDTO'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errortype.InternalError'
+      summary: 商品カテゴリ一覧を取得する
+      tags:
+      - 商品カテゴリ
+  /product/keyword/{keyword}:
+    get:
+      consumes:
+      - application/json
+      description: キーワード検索した商品を取得する
+      operationId: keyword-product
+      parameters:
+      - description: 商品名(キーワード)
+        in: path
+        name: keyword
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.ProductDTO'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errortype.NotFoundError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errortype.InternalError'
+      summary: 商品を取得する
+      tags:
+      - 商品
+  /product/register:
+    post:
+      consumes:
+      - application/json
+      description: 新しい商品を登録する
+      operationId: register-product
+      parameters:
+      - description: 商品データ
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ProductDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ProductDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errortype.ApplicationError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errortype.InternalError'
+      summary: 商品を登録する
+      tags:
+      - 商品
+swagger: "2.0"

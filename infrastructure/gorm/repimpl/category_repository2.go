@@ -13,7 +13,9 @@ type categoryRepositoryImpl2 struct {
 
 // すべての商品カテゴリを取得する
 func (c *categoryRepositoryImpl2) FindAll(db *gorm.DB) ([]*categories.Category, error) {
-	fmt.Println("CategoryRepositoryインターフェースの実装!!!!")
+	fmt.Println("**********************************************************")
+	fmt.Println("************* CategoryRepositoryインターフェースの実装2 ****")
+	fmt.Println("**********************************************************")
 	return nil, nil
 }
 

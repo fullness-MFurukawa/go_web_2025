@@ -1,0 +1,187 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "商品と商品カテゴリを管理するAPIサービス",
+        "title": "Go モダンWeb開発",
+        "contact": {
+            "name": "XXXX",
+            "url": "XXXX",
+            "email": "XXXX"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8085",
+    "basePath": "/",
+    "paths": {
+        "/category/list": {
+            "get": {
+                "description": "商品カテゴリ一覧を取得する",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "商品カテゴリ"
+                ],
+                "summary": "商品カテゴリ一覧を取得する",
+                "operationId": "list-category",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.CategoryDTO"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errortype.InternalError"
+                        }
+                    }
+                }
+            }
+        },
+        "/product/keyword/{keyword}": {
+            "get": {
+                "description": "キーワード検索した商品を取得する",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "商品"
+                ],
+                "summary": "商品を取得する",
+                "operationId": "keyword-product",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "商品名(キーワード)",
+                        "name": "keyword",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.ProductDTO"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/errortype.NotFoundError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errortype.InternalError"
+                        }
+                    }
+                }
+            }
+        },
+        "/product/register": {
+            "post": {
+                "description": "新しい商品を登録する",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "商品"
+                ],
+                "summary": "商品を登録する",
+                "operationId": "register-product",
+                "parameters": [
+                    {
+                        "description": "商品データ",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ProductDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ProductDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errortype.ApplicationError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errortype.InternalError"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "dto.CategoryDTO": {
+            "type": "object",
+            "properties": {
+                "categoryId": {
+                    "type": "string"
+                },
+                "categoryName": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.ProductDTO": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "$ref": "#/definitions/dto.CategoryDTO"
+                },
+                "productId": {
+                    "type": "string"
+                },
+                "productName": {
+                    "type": "string"
+                },
+                "productPrice": {
+                    "type": "string"
+                }
+            }
+        },
+        "errortype.ApplicationError": {
+            "type": "object"
+        },
+        "errortype.DomainError": {
+            "type": "object"
+        },
+        "errortype.InternalError": {
+            "type": "object"
+        },
+        "errortype.NotFoundError": {
+            "type": "object"
+        }
+    }
+}
